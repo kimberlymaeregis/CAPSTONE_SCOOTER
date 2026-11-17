@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Jones Scooter — Fleet Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="admin-login-screen" id="adminLoginScreen">
+  <div class="admin-login-brand"><span class="admin-brand-mark">JS</span><span><strong>JONES SCOOTER</strong><small>FLEET MANAGEMENT</small></span></div>
+  <div class="admin-login-grid">
+    <section class="admin-login-intro">
+      <span class="admin-login-eyebrow">STAFF &amp; OWNER PORTAL</span>
+      <h1>Manage every ride, from one place.</h1>
+      <p>Sign in to oversee your scooter fleet, bookings and branch operations.</p>
+    </section>
+    <section class="admin-login-card" aria-labelledby="adminLoginTitle">
+      <span class="admin-login-eyebrow">DEMO PORTAL</span>
+      <h2 id="adminLoginTitle">Admin sign in</h2>
+      <p class="admin-login-copy">Choose a demo account below to sign in, or enter its credentials manually.</p>
+      <form class="auth-form" id="adminLoginForm">
+        <label class="auth-field">Email address<input type="email" id="adminLoginEmail" autocomplete="username" required></label>
+        <label class="auth-field">Password<input type="password" id="adminLoginPassword" autocomplete="current-password" required></label>
+        <p class="admin-login-error" id="adminLoginError" role="alert" hidden></p>
+        <button class="auth-submit" type="submit">Sign in to dashboard <span>›</span></button>
+      </form>
+      <div class="admin-demo-accounts">
+        <p>Demo accounts</p>
+        <button type="button" data-demo-account="main">
+          <strong>Main Admin</strong><span>mainadmin@jonesscooter.demo</span><small>Password: owner123</small>
+        </button>
+        <button type="button" data-demo-account="staff">
+          <strong>Admin Staff</strong><span>admin@jonesscooter.demo</span><small>Password: staff123</small>
+        </button>
+      </div>
+      <button class="admin-customer-signup" type="button" id="customerSignUpBtn">Looking to rent? Create a customer account</button>
+      <p class="admin-demo-disclaimer">Demo only: credentials and role checks are in this browser app and are not secure authentication.</p>
+    </section>
+  </div>
+  <footer class="admin-login-footer">Jones Scooter · Casanta Soong, Lapu-Lapu City</footer>
+</main>
+
+<div class="app" id="adminApp" hidden>
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="side-logo">
+      <img id="logoImg" alt="Jones Scooter logo">
+      <div><div class="lname">JONES</div><div class="lsub">SCOOTER</div></div>
+    </div>
+    <nav class="side-nav" id="sideNav">
+      <button class="side-link active" data-page="overview">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span class="lbl">Overview</span>
+      </button>
+      <button class="side-link" data-page="tracking">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-6-3V4l6 3 6-3 6 3v13l-6-3-6 3z"/><path d="M9 7v13M15 4v13"/></svg>
+        <span class="lbl">Location preview</span>
+      </button>
+      <button class="side-link" data-page="fleet">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="18" r="2.3"/><circle cx="17" cy="18" r="2.3"/><path d="M6 18h7l1.6-6.4H16"/><path d="M10.5 8.5H14l1 3.1"/><path d="M10.5 8.5L12 5H15"/></svg>
+        <span class="lbl">Fleet</span>
+      </button>
+      <button class="side-link" data-page="bookings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span class="lbl">Bookings</span>
+        <span class="count" id="navBookingsCount">8</span>
+      </button>
+      <button class="side-link" data-page="customers">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.5 14.2c2.6.3 4.6 2.5 4.6 5.8"/></svg>
+        <span class="lbl">Customers</span>
+      </button>
+      <button class="side-link" data-page="reports">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+        <span class="lbl">Reports</span>
+      </button>
+      <button class="side-link" data-page="admin">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 9h.01M15 9h.01"/></svg>
+        <span class="lbl">Main admin</span>
+      </button>
+    </nav>
+    <div class="side-spacer"></div>
+    <div class="side-bottom">
+      <button class="side-link" data-page="settings" id="settingsNavLink" style="margin-bottom:2px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.9 2.9l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.9-2.9l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.6-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.9-2.9l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.6V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.6 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.9 2.9l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.6 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.6 1z"/></svg>
+        <span class="lbl">Settings</span>
+      </button>
+      <div class="help-card">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><circle cx="12" cy="17" r=".3" fill="currentColor"/></svg>
+        <div><div class="h-title">Need help?</div><div class="h-sub">Contact support</div></div>
+        <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="user-row">
+        <div class="user-avatar" id="adminUserAvatar">AJ<span class="dot"></span></div>
+        <div><div class="user-name" id="adminUserName">Alex Jones</div><div class="user-role" id="adminUserRole">Admin · staff</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="content">
+    <div class="topbar">
+      <div>
+        <div class="date" id="dateLabel">MONDAY, 26 MAY</div>
+        <h1 id="pageTitle">Overview</h1>
+      </div>
+      <div class="topbar-actions">
+        <div class="search-inline" id="searchInline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Search...">
+        </div>
+        <button class="icon-btn" id="searchBtn" aria-label="Search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </button>
+        <div class="icon-btn-wrap">
+          <button class="icon-btn" id="bellBtn" aria-label="Notifications">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+            <span class="ping" id="bellPing"></span>
+          </button>
+          <div class="notif-pop" id="notifPop" hidden></div>
+        </div>
+       
+        <button class="btn" id="customerLoginBtn">Customer login</button>
+        <button class="btn" id="adminLogoutBtn">Log out</button>
+      </div>
+    </div>
+
+    <!-- ============ OVERVIEW ============ -->
+    <section class="page active" id="page-overview">
+      <div class="page-head">
+        <div>
+          <h2 id="greeting">Good morning, Alex</h2>
+          <p>Here's what's happening with your fleet today.</p>
+        </div>
+        <span class="pill"><span class="dot"></span>Demo fleet data</span>
+      </div>
+
+      <div class="stat-row" id="overviewStats"></div>
+
+      <div class="grid-2" style="margin-bottom:16px;">
+        <div class="panel">
+          <div class="p-head">
+            <div><h3>Fleet location preview</h3><div class="p-sub">Sample positions · GPS provider not connected</div></div>
+          </div>
+          <div class="map-area" id="mapOverview"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="map-legend" id="legendOverview"></div>
+            <span class="link-more" data-page="tracking">Open location preview <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="p-head"><h3>Fleet activity</h3></div>
+          <div class="p-sub" style="margin-top:-10px; margin-bottom:12px;">Live status updates</div>
+          <div class="nearby-list" id="activityList"></div>
+          <span class="link-more" data-page="fleet" style="margin-top:10px; display:inline-flex;">View all scooters <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>
+        </div>
+      </div>
+
+      <div class="attn-banner" id="attnBanner"></div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <div class="p-head"><h3>Rental catalog</h3></div>
+          <div class="p-sub" style="margin-top:-10px;" id="catalogSub">Seven fleet models · Rates from ₱400 per day</div>
+          <div style="margin-top:14px;">
+            <button class="btn btn-dark" id="viewCatalogBtn">View catalog</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="p-head">
+            <div><h3 id="branchNameOv">Jones Scooter — Soong</h3><div class="p-sub">Main rental branch</div></div>
+            <span class="pill"><span class="dot"></span>Open now</span>
+          </div>
+          <div style="font-size:12.5px; color:var(--text-dim); line-height:1.9;" id="branchDetailsOv"></div>
+          <span class="link-more" id="copyBranchBtn" style="margin-top:8px; display:inline-flex;">Copy branch details</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIVE TRACKING ============ -->
+    <section class="page" id="page-tracking">
+      <div class="page-head">
+        <div> <p>Review the sample fleet map and unit status.</p></div>
+        <button class="btn btn-dark" id="locateBtn">Show scooter on map</button>
+      </div>
+      <div class="integration-notice"><strong>Live GPS is not connected.</strong> Map pins use sample positions from this demo. Connect your tracker provider and backend before relying on live location or geofence alerts.</div>
+      <div class="grid-2">
+        <div class="panel">
+          <div class="map-area" id="mapTracking" style="height:460px;"></div>
+          <div class="map-legend" id="legendTracking"></div>
+        </div>
+        <div class="panel">
+          <div class="p-head">
+            <div><h3>Fleet units</h3><div class="p-sub">Sample locations and current status</div></div>
+            <span class="pill">Demo locations</span>
+          </div>
+          <div class="nearby-list" id="nearbyList" style="max-height:520px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FLEET ============ -->
+    <section class="page" id="page-fleet">
+      <div class="page-head">
+        <div> <p>Manage vehicle details, availability and maintenance.</p></div>
+        <button class="btn btn-dark" id="registerScooterBtn">+ Register scooter</button>
+      </div>
+      <div class="stat-row" id="fleetStats"></div>
+      <div class="table-toolbar">
+        <div class="filter-tabs" id="fleetFilters"></div>
+        <button class="btn" id="exportFleetBtn">Export list</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Vehicle</th><th>Model</th><th>Unit color</th><th>Status</th><th>Odometer</th><th></th></tr></thead>
+          <tbody id="fleetTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ BOOKINGS ============ -->
+    <section class="page" id="page-bookings">
+      <div class="page-head">
+        <div><p>Review upcoming rentals, handovers and returns.</p></div>
+        <button class="btn btn-dark" id="newBookingBtn">+ New booking</button>
+      </div>
+      <div class="stat-row" id="bookingsStats"></div>
+      <div class="table-toolbar">
+        <div class="filter-tabs" id="bookingsFilters"></div>
+        <button class="btn" id="syncCalBtn">Sync calendar</button>
+      </div>
+      <div class="table-wrap" style="min-width:0;">
+        <div id="bookingsList"></div>
+      </div>
+    </section>
+
+    <!-- ============ CUSTOMERS ============ -->
+    <section class="page" id="page-customers">
+      <div class="page-head">
+        <div><p>Build customer relationships and review rental history.</p></div>
+        <button class="btn btn-dark" id="addCustomerBtn">+ Add customer</button>
+      </div>
+      <div class="stat-row" id="customerStats"></div>
+      <div class="cust-grid" id="custGrid"></div>
+    </section>
+
+    <!-- ============ REPORTS ============ -->
+    <section class="page" id="page-reports">
+      <div class="page-head">
+        <div> <p>Understand revenue, usage and fleet performance.</p></div>
+        <button class="btn btn-dark" id="exportReportBtn">Export report</button>
+      </div>
+      <div class="stat-row" id="reportsStats"></div>
+      <div class="grid-2">
+        <div class="panel">
+          <div class="p-head">
+            <div><h3>Bookings by status</h3><div class="p-sub">Current booking records</div></div>
+          </div>
+          <div class="bars-chart" id="revChart"></div>
+        </div>
+        <div class="panel">
+          <div class="p-head"><h3>Top insights</h3></div>
+          <div id="insightsList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MAIN ADMIN ============ -->
+    <section class="page" id="page-admin">
+      <div class="page-head">
+        <div><p>Oversee staff access and rental branch locations.</p></div>
+        <span class="pill"><span class="dot"></span>Owner access</span>
+      </div>
+      <div class="integration-notice"><strong>Demo administration.</strong> Credentials and role checks are not secure authentication. New staff and branch records remain in this session only and do not create sign-in accounts.</div>
+      <div class="stat-row" id="adminStats"></div>
+      <div class="admin-management-grid">
+        <section class="panel">
+          <div class="p-head">
+            <div><h3>Branches</h3><div class="p-sub">Manage your rental locations</div></div>
+            <button type="button" class="btn btn-dark" id="addBranchBtn">+ Add branch</button>
+          </div>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Branch</th><th>Location</th><th>Contact</th><th>Status</th><th></th></tr></thead>
+              <tbody id="adminBranchesTable"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="p-head">
+            <div><h3>Staff</h3><div class="p-sub">Review team roles and access status</div></div>
+            <button type="button" class="btn btn-dark" id="addStaffBtn">+ Add staff</button>
+          </div>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Team member</th><th>Role</th><th>Branch</th><th>Status</th><th></th></tr></thead>
+              <tbody id="adminStaffTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section class="page" id="page-settings">
+      <div class="page-head">
+        <div><p>Manage notifications, branch details and system preferences.</p></div>
+        <button class="btn btn-dark" id="saveSettingsBtn">Save all changes</button>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Notifications</h3>
+          <div class="p-sub" style="margin-top:2px;">Choose the operational alerts you want to receive.</div>
+          <div id="toggleList" style="margin-top:8px;"></div>
+        </div>
+        <div class="panel branch-card">
+          <h3 style="text-align:left;">Branch profile</h3>
+          <img class="branch-logo" id="branchLogoImg" alt="Jones Scooter logo">
+          <div class="branch-name" id="branchName">Jones Scooter — Soong</div>
+          <div class="branch-addr" id="branchAddr"></div>
+          <button class="btn" style="width:100%; justify-content:center;" id="editBranchBtn">Edit branch profile</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app-foot">Jones Scooter fleet admin — demo dashboard</footer>
+  </main>
+</div>
+
+<main class="auth-screen customer-auth-screen" id="customerPortal" hidden>
+  <section class="auth-story customer-auth-heading" id="authStory" aria-label="Jones Scooter rentals">
+    <div class="auth-brand">
+      <img id="authLogo" alt="Jones Scooter logo">
+      <div><strong>JONES SCOOTER</strong><span>Customer account portal</span></div>
+    </div>
+    <div class="customer-auth-title">
+      <span class="auth-eyebrow">YOUR NEXT RIDE STARTS HERE</span>
+      <h1>Ride Cebu your way.</h1>
+      <p>Sign in or create an account to manage your scooter rentals.</p>
+    </div>
+  </section>
+
+  <section class="auth-panel customer-auth-panel" aria-label="Customer login and registration">
+    <button class="auth-back" id="backToAdminBtn" type="button">← Back to staff sign in</button>
+    <div class="customer-auth-card" id="customerAuthCard">
+      <form class="auth-form customer-auth-form-pane customer-signin-pane" id="signInForm">
+        <span class="auth-form-eyebrow">CUSTOMER PORTAL</span>
+        <h2 id="authTitle">Login</h2>
+        <p class="auth-intro" id="authIntro">Sign in to manage your rides and bookings.</p>
+        <label class="auth-field">Email address<input type="email" name="email" placeholder="you@example.com" autocomplete="email" required></label>
+        <label class="auth-field">Password<input type="password" name="password" placeholder="At least 6 characters" autocomplete="current-password" minlength="6" required></label>
+        <button class="auth-forgot" type="button" id="forgotPasswordBtn">Forgot password?</button>
+        <button class="auth-submit" type="submit">Sign in to my account <span>›</span></button>
+        <p class="auth-note">Demo only: sign-in is not connected to an authentication service.</p>
+      </form>
+      <form class="auth-form customer-auth-form-pane customer-signup-pane" id="signUpForm" hidden>
+        <span class="auth-form-eyebrow">NEW CUSTOMER</span>
+        <h2>Create account</h2>
+        <p class="auth-intro">Join Jones Scooter and reserve your next ride.</p>
+        <label class="auth-field">Full name<input type="text" name="name" placeholder="Enter your full name" autocomplete="name" required></label>
+        <label class="auth-field">Email address<input type="email" name="email" placeholder="you@example.com" autocomplete="email" required></label>
+        <label class="auth-field">Phone number<input type="tel" name="phone" placeholder="09XX XXX XXXX" autocomplete="tel" required></label>
+        <label class="auth-field">Password<input type="password" name="password" placeholder="At least 6 characters" autocomplete="new-password" minlength="6" required></label>
+        <button class="auth-submit" type="submit">Create my account <span>›</span></button>
+        <p class="auth-note">Demo only: account creation is not connected to a customer database.</p>
+      </form>
+      <div class="customer-auth-visual">
+        <div class="customer-auth-prompt customer-signin-prompt">
+          <h2>Hello, welcome!</h2>
+          <p>Don't have an account yet?</p>
+          <button type="button" data-auth-mode="signup">Register</button>
+        </div>
+        <div class="customer-auth-prompt customer-signup-prompt">
+          <h2>Welcome back!</h2>
+          <p>Already have an account?</p>
+          <button type="button" data-auth-mode="signin">Login</button>
+        </div>
+      </div>
+    </div>
+    <div class="auth-help"><span>Need help signing in?</span><a href="tel:09458696645">0945 869 6645</a></div>
+  </section>
+
+  <section class="customer-app" id="customerApp" hidden>
+    <header class="customer-header">
+      <a class="customer-brand" href="#home" aria-label="Jones Scooter home">
+        <img id="customerLogo" alt="">
+        <span><strong>JONES SCOOTER</strong><small>Ride Cebu your way</small></span>
+      </a>
+      <nav class="customer-nav" aria-label="Customer navigation">
+        <button type="button" data-customer-page="home" class="active">Home</button>
+        <button type="button" data-customer-page="rides">Book a ride</button>
+        <button type="button" data-customer-page="bookings">My bookings</button>
+        <button type="button" data-customer-page="profile">Profile</button>
+      </nav>
+      <div class="customer-header-actions">
+        <div class="customer-notification-wrap">
+          <button class="customer-notification-btn" type="button" id="customerNotificationBtn" aria-label="Notifications" aria-expanded="false" aria-controls="customerNotificationPanel">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+            <span class="customer-notification-count" id="customerNotificationCount" hidden></span>
+          </button>
+          <section class="customer-notification-panel" id="customerNotificationPanel" aria-label="Booking notifications" hidden></section>
+        </div>
+        <button class="customer-admin-link" type="button" id="customerLogoutBtn">Log out</button>
+      </div>
+    </header>
+    <main class="customer-content" id="customerContent"></main>
+    <footer class="customer-footer"><span>Jones Scooter · Casanta Soong, Lapu-Lapu City</span><a href="tel:09458696645">0945 869 6645</a></footer>
+    <button class="customer-scroll-top" id="customerScrollTop" type="button" aria-label="Scroll to top" title="Scroll to top" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  </section>
+</main>
+
+<div class="overlay" id="modalOverlay" hidden><div class="modal" id="modalRoot"></div></div>
+<div class="toast-stack" id="toastStack"></div>
+<aside class="chat-widget" id="chatWidget" aria-label="Customer support chat">
+  <section class="chat-panel" id="chatPanel" aria-label="Support messages" hidden>
+    <header class="chat-header">
+      <div><strong id="chatTitle">Jones Scooter support</strong><span id="chatSubtitle">Demo chat · this browser only</span></div>
+      <button type="button" class="chat-close" id="chatCloseBtn" aria-label="Close chat">×</button>
+    </header>
+    <label class="chat-conversation-picker" id="chatConversationWrap" hidden>
+      Customer conversation
+      <select id="chatConversationSelect" aria-label="Select customer conversation"></select>
+    </label>
+    <div class="chat-messages" id="chatMessages" role="log" aria-live="polite"></div>
+    <form class="chat-compose" id="chatForm">
+      <label class="sr-only" for="chatInput">Write a message</label>
+      <textarea id="chatInput" maxlength="1000" rows="2" placeholder="Write a message..." required></textarea>
+      <button type="submit" class="customer-primary" id="chatSendBtn">Send</button>
+    </form>
+    <p class="chat-demo-note" id="chatDemoNote">Demo chat: messages are saved only in this browser, not sent to staff devices.</p>
+  </section>
+  <button type="button" class="chat-launcher" id="chatLauncher" aria-expanded="false" aria-controls="chatPanel">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 01-7.5 7.5H5l-1 .8v-4.1A7.5 7.5 0 1112.5 19"/></svg>
+    <span id="chatLauncherLabel">Chat</span>
+  </button>
+</aside>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -46,6 +46,8 @@
 </main>
 
 <div class="app" id="adminApp" hidden>
+  <div class="side-backdrop" id="sideBackdrop"></div>
+  
   <!-- ================= SIDEBAR ================= -->
   <aside class="sidebar">
     <div class="side-logo">
@@ -108,7 +110,12 @@
         <div class="date" id="dateLabel">MONDAY, 26 MAY</div>
         <h1 id="pageTitle">Overview</h1>
       </div>
+
       <div class="topbar-actions">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+
         <div class="search-inline" id="searchInline">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
           <input type="text" id="searchInput" placeholder="Search...">
@@ -140,6 +147,9 @@
       </div>
 
       <div class="stat-row" id="overviewStats"></div>
+
+      <div class="panel" id="todayTasks" style="margin-bottom:16px;"></div>
+      
 
       <div class="grid-2" style="margin-bottom:16px;">
         <div class="panel">
@@ -278,6 +288,22 @@
       <div class="integration-notice"><strong>Demo administration.</strong> Credentials and role checks are not secure authentication. New staff and branch records remain in this session only and do not create sign-in accounts.</div>
       <div class="stat-row" id="adminStats"></div>
       <div class="admin-management-grid">
+
+        <section class="panel">
+  <div class="p-head">
+    <div><h3>Rental rates</h3><div class="p-sub">Daily price per model · applies to new bookings</div></div>
+    <button type="button" class="btn btn-dark" id="saveRatesBtn">Save rates</button>
+  </div>
+  <div class="table-wrap"><table class="admin-table">
+    <thead><tr><th>Model</th><th>Daily (₱)</th><th>Weekly (−20%)</th><th>Monthly (−43%)</th></tr></thead>
+    <tbody id="adminRatesTable"></tbody>
+  </table></div>
+</section>
+<section class="panel">
+  <div class="p-head"><div><h3>Activity log</h3><div class="p-sub">Latest staff actions in this session</div></div></div>
+  <div id="adminActivityList"></div>
+</section>
+
         <section class="panel">
           <div class="p-head">
             <div><h3>Branches</h3><div class="p-sub">Manage your rental locations</div></div>
